@@ -3,14 +3,22 @@ package com.github.lambda.mapreduce.lambda;
 
 import com.github.lambda.mapreduce.dao.MapReduceEntityDao;
 import com.github.lambda.mapreduce.model.MapReduceEntity;
+import com.github.lambda.mapreduce.sweepers.LambaClientProxy;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public class SweeperLambda {
 
-    @Inject
     private MapReduceEntityDao mapReduceEntityDao;
+    private LambaClientProxy lambaClientProxy;
+
+    @Inject
+    public SweeperLambda(MapReduceEntityDao mapReduceEntityDao,
+                         LambaClientProxy lambaClientProxy) {
+        this.mapReduceEntityDao = mapReduceEntityDao;
+        this.lambaClientProxy = lambaClientProxy;
+    }
 
     public static class SweeperLambdaRequest {
 

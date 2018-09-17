@@ -1,5 +1,6 @@
 package com.github.lambda.mapreduce.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.github.lambda.mapreduce.lambda.MapReduceLambda;
@@ -29,5 +30,6 @@ public class MapReduceEntity {
     String periodicSweeperRuleArn;
 
     @DynamoDBHashKey(attributeName = MAP_REDUCE_LAMBDA_ARN)
+    @DynamoDBAttribute
     String mapReduceLambdaArn;
 }

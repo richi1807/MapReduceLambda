@@ -1,6 +1,6 @@
 package com.github.lambda.mapreduce.lambda;
 
-import com.amazonaws.services.s3.AmazonS3URI;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.github.lambda.mapreduce.dao.MapReduceEntityDao;
 import com.github.lambda.mapreduce.sweepers.DynamoDbTableSweeperOrchestrator;
 import lombok.Builder;
@@ -9,22 +9,29 @@ import lombok.NonNull;
 
 import javax.inject.Inject;
 
+@Data
 public class MapReduceLambda {
 
-    @Inject
     private MapReduceEntityDao mapReduceEntityDao;
 
-    @Inject
     private DynamoDbTableSweeperOrchestrator entitySweeperLambda;
 
     private String lambdaRoleArn;
 
-    public MapReduceLambda(@NonNull String lambdaRoleArn) {
+    @Inject
+    public MapReduceLambda(MapReduceEntityDao mapReduceEntityDao,
+                           DynamoDbTableSweeperOrchestrator entitySweeperLambda) {
+        this.mapReduceEntityDao = mapReduceEntityDao;
+        this.entitySweeperLambda = entitySweeperLambda;
+    }
+
+    public void initialize(@NonNull String lambdaRoleArn) {
         this.lambdaRoleArn = lambdaRoleArn;
     }
 
     @Data
     @Builder
+    @DynamoDBDocument
     public static class CreateMapReduceLambdaRequest {
 
         String awsCredentialsArn;
@@ -34,14 +41,15 @@ public class MapReduceLambda {
         int numberOfMappers;
         int numberOfReducers;
 
-        AmazonS3URI inputS3Prefix;
-        AmazonS3URI outputPrefix;
+        String inputS3Prefix;
+        String outputPrefix;
 
         int maximumConcurrentExecutions;
     }
 
     @Data
     @Builder
+    @DynamoDBDocument
     public static class CreateMapReduceLambdaResponse {
         String mapReduceLambdaArn;
     }

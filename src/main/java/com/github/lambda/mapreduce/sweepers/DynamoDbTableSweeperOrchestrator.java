@@ -1,8 +1,9 @@
 package com.github.lambda.mapreduce.sweepers;
 
 import com.github.lambda.mapreduce.notifications.CloudwatchNotificationProxy;
+import lombok.Data;
+import lombok.NonNull;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -29,32 +30,25 @@ import javax.inject.Singleton;
  * On new event in cloudWatch,
  */
 @Singleton
+@Data
 public class DynamoDbTableSweeperOrchestrator {
 
-    @Inject
+    @NonNull
     private CloudwatchNotificationProxy cloudwatchNotificationProxy;
 
-    @Inject
+    @NonNull
     private LambaClientProxy lambaClientProxy;
 
-    @Inject
-    private String roleArn;
+    public DynamoDbTableSweeperOrchestrator(CloudwatchNotificationProxy cloudWatchNotificationProxy, LambaClientProxy lambdaClientProxy) {
 
-    @Inject
-    public void setCloudwatchNotificationProxy(CloudwatchNotificationProxy
-                                                       cloudwatchNotificationProxy,
-                                               LambaClientProxy lambaClientProxy,
-                                               String roleArn) {
         this.cloudwatchNotificationProxy = cloudwatchNotificationProxy;
         this.lambaClientProxy = lambaClientProxy;
-        this.roleArn = roleArn;
-        initializeSweeperSetUp();
     }
 
     /**
      * 1. Registers sweeper function
      */
-    private void initializeSweeperSetUp() {
+    private void initializeSweeperSetUp(String roleArn) {
 
         lambaClientProxy.getSweeperLambdaArn();
         this.cloudwatchNotificationProxy.registerSweeperRule(

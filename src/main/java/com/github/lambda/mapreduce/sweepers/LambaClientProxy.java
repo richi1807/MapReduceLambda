@@ -1,18 +1,19 @@
 package com.github.lambda.mapreduce.sweepers;
 
-import com.amazonaws.services.lambda.AWSLambdaClient;
+import com.amazonaws.services.lambda.AWSLambda;
+import lombok.Data;
 
 import javax.inject.Inject;
 
+@Data
 public class LambaClientProxy {
 
     private static final String DESCRIPTION = "Lambda Function description";
 
-    @Inject
-    private AWSLambdaClient awsLambdaClient;
+    private AWSLambda awsLambdaClient;
 
     @Inject
-    public void setAwsLambdaClient(AWSLambdaClient awsLambdaClient) {
+    public LambaClientProxy(AWSLambda awsLambdaClient) {
         this.awsLambdaClient = awsLambdaClient;
     }
 

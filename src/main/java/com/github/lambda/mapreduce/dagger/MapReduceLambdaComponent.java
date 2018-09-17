@@ -1,9 +1,12 @@
 package com.github.lambda.mapreduce.dagger;
 
-import com.github.lambda.mapreduce.lambda.MapReduceLambda;
+import com.github.lambda.mapreduce.driver.IntegrationTest;
 import dagger.Component;
 
-@Component(modules = MapReduceLambdaComponent.class)
+import javax.inject.Singleton;
+
+@Component(modules = MapReduceLambdaModule.class)
+@Singleton
 public interface MapReduceLambdaComponent {
-    void inject(MapReduceLambda mapReduceLambda);
+    void inject(IntegrationTest integrationTest);
 }

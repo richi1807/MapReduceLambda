@@ -9,17 +9,11 @@ import java.util.UUID;
 
 public class CloudwatchNotificationProxy {
 
-    @Inject
     private AmazonCloudWatchEvents amazonCloudWatchEvents;
 
     @Inject
-    private String cloudWatchRoleArn;
-
-    @Inject
-    public CloudwatchNotificationProxy(AmazonCloudWatchEvents amazonCloudWatchEvents,
-                                       String cloudWatchRoleArn) {
+    public CloudwatchNotificationProxy(AmazonCloudWatchEvents amazonCloudWatchEvents) {
         this.amazonCloudWatchEvents = amazonCloudWatchEvents;
-        this.cloudWatchRoleArn = cloudWatchRoleArn;
     }
 
     /*
@@ -33,7 +27,7 @@ public class CloudwatchNotificationProxy {
                         .withEventPattern(
                                 "aws.events")
                         .withName(UUID.randomUUID().toString())
-                        .withRoleArn(cloudWatchRoleArn)
+                        .withRoleArn(roleArn)
                         .withScheduleExpression(
                                 "*/5 * * * *"
                         )

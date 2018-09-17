@@ -23,6 +23,7 @@ import static com.github.lambda.mapreduce.model.MapReduceEntity.MAP_REDUCE_LAMBD
 public class MapReduceEntityDao {
 
     private AmazonDynamoDB amazonDynamoDBClient;
+
     private DynamoDBMapper dynamoDBMapper = new DynamoDBMapper(
             amazonDynamoDBClient, DynamoDBMapperConfig.DEFAULT
     );
